@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-1.12.2.min.js"></script>
+    <title>Airtable</title>
+</head>
+
+<body>
+
+    <div id='affichage-question'></div>
+    <div id='affichage-reponse'></div>
+
+
+    <script>
+        const question = document.querySelector("#affichage-question")
+        const question_reponse = document.querySelector("#affichage-reponse")
+  
+
+
+        $.ajax({
+            url: 'https://api.airtable.com/v0/appDy1ud9kdkbSAOb/Questions?api_key=keyxEX6nxNX72eMkB',
+
+            dataType: 'json',
+            success: function(apiResponse) {
+
+                var apireponse1 = apiResponse.records[0].fields.reponses[0]
+                var apireponse2 = apiResponse.records[0].fields.reponses[1]
+                var questionsLength = apiResponse.records.length
+                for (let i = 0; i > questions; i++){
+                    console.log(questions[i])
+                    
+                }
+                var questionTexte =
+                    "<div>" + apiResponse.records[0].fields.txtQuestion + "<br>" +
+                    apiResponse.records[0].fields.complement + "</div>"
+
+
+
+                $("#affichage-question").append(questionTexte)
+
+                $.ajax({
+                    url: 'https://api.airtable.com/v0/appDy1ud9kdkbSAOb/Reponses?api_key=keyxEX6nxNX72eMkB',
+
+                    dataType: 'json',
+                    success: function(apiResponse) {
+                        for (let rep in apiResponse.records) {
+
+                            var reponseTextuelle = apiResponse.records[rep].fields.txtReponse
+                            var questionSuivante = apiResponse.records[rep].fields.questionSuivante
+
+
+                            if (apireponse1 == apiResponse.records[rep].id) {
+
+                                var reponseBouton =
+                                    "<button data-qstSuiv='" + questionSuivante + "'>" + reponseTextuelle + "</button>"
+
+                                $("#affichage-reponse").append(reponseBouton)
+
+
+                            } else if (apireponse2 == apiResponse.records[rep].id) {
+                                var reponseBouton =
+                                
+                                "<button data-reponse='" + questionSuivante + "'>" + reponseTextuelle + "</button>"
+
+                                $("#affichage-reponse").append(reponseBouton)
+                            }
+                        }
+
+
+
+
+
+
+
+                    }
+                });
+
+
+
+
+
+            }
+        });
+
+    </script>
+</body>
+
+</html>
