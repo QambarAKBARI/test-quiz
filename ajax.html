@@ -13,11 +13,13 @@
 
     <div id='affichage-question'></div>
     <div id='affichage-reponse'></div>
-
+    <h1>Question Suivante :</h1>
+    <div id="questionSuivi"></div>
 
     <script>
         const question = document.querySelector("#affichage-question")
         const question_reponse = document.querySelector("#affichage-reponse")
+        const question_suivi = document.querySelector("#questionSuivi")
   
 
 
@@ -27,10 +29,10 @@
             dataType: 'json',
             success: function(apiResponse) {
 
-                var apireponse1 = apiResponse.records[0].fields.reponses[0]
-                var apireponse2 = apiResponse.records[0].fields.reponses[1]
+                var idReponse1 = apiResponse.records[0].fields.reponses[0]
+                var idReponse2 = apiResponse.records[0].fields.reponses[1]
                 var questionsLength = apiResponse.records.length
-                for (let i = 0; i > questions; i++){
+                for (let i = 0; i > questionsLength; i++){
                     console.log(questions[i])
                     
                 }
@@ -53,20 +55,69 @@
                             var questionSuivante = apiResponse.records[rep].fields.questionSuivante
 
 
-                            if (apireponse1 == apiResponse.records[rep].id) {
+                            if (idReponse1 == apiResponse.records[rep].id) {
 
                                 var reponseBouton =
-                                    "<button data-qstSuiv='" + questionSuivante + "'>" + reponseTextuelle + "</button>"
+                                    "<button id='reponseBouton1' data-qst-suiv='" + questionSuivante + "'>" + reponseTextuelle + "</button>"
 
                                 $("#affichage-reponse").append(reponseBouton)
 
+                                const boutonQstSuiv = document.querySelector('#reponseBouton1')
+                                boutonQstSuiv.addEventListener('click', () => {
+                                    var questionNext = boutonQstSuiv.dataset.qstSuiv
+                                    console.log(questionNext)
+                                
+                                    $.ajax({
+                                        url: 'https://api.airtable.com/v0/appDy1ud9kdkbSAOb/Questions?api_key=keyxEX6nxNX72eMkB',
 
-                            } else if (apireponse2 == apiResponse.records[rep].id) {
+                                        dataType: 'json',
+                                        success: function(apiResponse) {
+                                            for(qsts in apiResponse.records){
+                                                if(questionNext == apiResponse.records[qsts].id){
+                                                    var questionTexte =
+                                                    "<div>" + apiResponse.records[qsts].fields.txtQuestion + "<br>" +
+                                                    apiResponse.records[qsts].fields.complement + "</div>"
+
+                                                    $("#questionSuivi").append(questionTexte)
+
+                                                }
+                                            }
+                                            
+                                        }
+                                    })
+                                })
+
+                            } else if (idReponse2 == apiResponse.records[rep].id) {
                                 var reponseBouton =
                                 
-                                "<button data-reponse='" + questionSuivante + "'>" + reponseTextuelle + "</button>"
+                                "<button id='reponseBouton2' data-qst-suiv='" + questionSuivante + "'>" + reponseTextuelle + "</button>"
 
                                 $("#affichage-reponse").append(reponseBouton)
+
+                                const boutonQstSuiv = document.querySelector('#reponseBouton2')
+                                boutonQstSuiv.addEventListener('click', () => {
+                                    var questionNext = boutonQstSuiv.dataset.qstSuiv
+                                    console.log(questionNext)
+                                
+                                    $.ajax({
+                                        url: 'https://api.airtable.com/v0/appDy1ud9kdkbSAOb/Questions?api_key=keyxEX6nxNX72eMkB',
+
+                                        dataType: 'json',
+                                        success: function(apiResponse) {
+                                            for(qsts in apiResponse.records){
+                                                if(questionNext == apiResponse.records[qsts].id){
+                                                    var questionTexte =
+                                                    "<div>" + apiResponse.records[qsts].fields.txtQuestion + "<br>" +
+                                                    apiResponse.records[qsts].fields.complement + "</div>"
+
+                                                    $("#questionSuivi").append(questionTexte)
+
+                                                }
+                                            }
+                                            
+                                        }
+                                    })
+                                })
                             }
                         }
 
@@ -74,12 +125,8 @@
 
 
 
-
-
                     }
                 });
-
-
 
 
 
