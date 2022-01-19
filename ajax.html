@@ -38,18 +38,22 @@
 
                 var idReponse1 = apiResponse.records[0].fields.reponses[0]
                 var idReponse2 = apiResponse.records[0].fields.reponses[1]
-                var questionsLength = apiResponse.records.length
-                for (let i = 0; i > questionsLength; i++){
-                    console.log(questions[i])
-                    
+
+                var records = apiResponse.records
+                for(let i in records){
+                    //var idOrigine = records[i].id
+                    //console.log(idOrigine)
                 }
                 var questionTexte =
-                    "<h2 uk-card-title>" + apiResponse.records[0].fields.txtQuestion + "</h2>" +
+                    "<h2 class='uk-card-title'>" + apiResponse.records[0].fields.txtQuestion + "</h2>" +
                     "<h4>" + apiResponse.records[0].fields.complement + "</h4>"
 
 
 
-                $("#affichage-question").append(questionTexte)
+                $("#affichage-question").html(questionTexte)
+
+                idOrigine = "recN3VJy0BUNo9oVI"
+                console.log(idOrigine)
 
                 $.ajax({
                     url: 'https://api.airtable.com/v0/appDy1ud9kdkbSAOb/Reponses?api_key=keyxEX6nxNX72eMkB',
@@ -82,14 +86,13 @@
                                             for(qsts in apiResponse.records){
                                                 if(questionNext == apiResponse.records[qsts].id){
                                                     var questionTexte =
-                                                    "<div>" + apiResponse.records[qsts].fields.txtQuestion + "<br>" +
-                                                    apiResponse.records[qsts].fields.complement + "</div>"
+                                                    "<h2 class='uk-card-title'>" + apiResponse.records[qsts].fields.txtQuestion + "<h2>" +
+                                                    "<h4>" + apiResponse.records[qsts].fields.complement + "</h4>"
 
-                                                    $("#questionSuivi").append(questionTexte)
+                                                    $("#affichage-question").html(questionTexte)
 
                                                 }
                                             }
-                                            
                                         }
                                     })
                                 })
@@ -114,10 +117,10 @@
                                             for(qsts in apiResponse.records){
                                                 if(questionNext == apiResponse.records[qsts].id){
                                                     var questionTexte =
-                                                    "<div>" + apiResponse.records[qsts].fields.txtQuestion + "<br>" +
-                                                    apiResponse.records[qsts].fields.complement + "</div>"
+                                                    "<h2 class='uk-card-title'>" + apiResponse.records[qsts].fields.txtQuestion + "</h2>" +
+                                                    "<h4>" + apiResponse.records[qsts].fields.complement + "</h4>"
 
-                                                    $("#questionSuivi").append(questionTexte)
+                                                    $("#affichage-question").html(questionTexte)
 
                                                 }
                                             }
