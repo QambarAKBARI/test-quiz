@@ -5,20 +5,27 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.10.0/dist/css/uikit.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.10.0/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.10.0/dist/js/uikit-icons.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.12.2.min.js"></script>
+    <link rel="stylesheet" href="css/main.css">
     <title>Airtable</title>
 </head>
 
 <body>
+    <div class="uk-container">
+        <div id="quiz">
+            <div class="uk-card" id='affichage-question'></div>
+            <div id='affichage-reponse'></div>
+            <div id="questionSuivi"></div>
+        </div>
+    </div>
 
-    <div id='affichage-question'></div>
-    <div id='affichage-reponse'></div>
-    <h1>Question Suivante :</h1>
-    <div id="questionSuivi"></div>
 
     <script>
-        const question = document.querySelector("#affichage-question")
-        const question_reponse = document.querySelector("#affichage-reponse")
+        const questionDiv = document.querySelector("#affichage-question")
+        const reponseDiv = document.querySelector("#affichage-reponse")
         const question_suivi = document.querySelector("#questionSuivi")
   
 
@@ -37,8 +44,8 @@
                     
                 }
                 var questionTexte =
-                    "<div>" + apiResponse.records[0].fields.txtQuestion + "<br>" +
-                    apiResponse.records[0].fields.complement + "</div>"
+                    "<h2 uk-card-title>" + apiResponse.records[0].fields.txtQuestion + "</h2>" +
+                    "<h4>" + apiResponse.records[0].fields.complement + "</h4>"
 
 
 
@@ -58,7 +65,7 @@
                             if (idReponse1 == apiResponse.records[rep].id) {
 
                                 var reponseBouton =
-                                    "<button id='reponseBouton1' data-qst-suiv='" + questionSuivante + "'>" + reponseTextuelle + "</button>"
+                                    "<button class='uk-button-primary uk-button-large' id='reponseBouton1' data-qst-suiv='" + questionSuivante + "'>" + reponseTextuelle + "</button>"
 
                                 $("#affichage-reponse").append(reponseBouton)
 
@@ -90,7 +97,7 @@
                             } else if (idReponse2 == apiResponse.records[rep].id) {
                                 var reponseBouton =
                                 
-                                "<button id='reponseBouton2' data-qst-suiv='" + questionSuivante + "'>" + reponseTextuelle + "</button>"
+                                "<button class='uk-button-primary uk-button-large uk-margin-medium-left' id='reponseBouton2' data-qst-suiv='" + questionSuivante + "'>" + reponseTextuelle + "</button>"
 
                                 $("#affichage-reponse").append(reponseBouton)
 

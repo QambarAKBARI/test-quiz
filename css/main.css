@@ -1,0 +1,9 @@
+body{
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+#quiz{
+    text-align: center;
+}
